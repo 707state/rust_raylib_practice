@@ -1,5 +1,12 @@
+use clap::{Arg, Parser};
 use rand::Rng;
 use raylib::prelude::*;
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    #[arg(short, long, default_value_t = 100000)]
+    count: i32,
+}
 pub struct Particle {
     pos: Vector2,
     vel: Vector2,
@@ -82,7 +89,8 @@ fn main() {
     let screen_width = 800;
     let screen_height = 800;
 
-    let particle_count = 100000;
+    let args = Args::parse();
+    let mut particle_count = args.count;
     let mut particles: Vec<Particle> = (0..particle_count)
         .map(|_| Particle::new(screen_width, screen_height))
         .collect();
