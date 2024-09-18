@@ -1,4 +1,4 @@
-use clap::{Arg, Parser};
+use clap::Parser;
 use rand::Rng;
 use raylib::prelude::*;
 #[derive(Parser, Debug)]
@@ -6,6 +6,10 @@ use raylib::prelude::*;
 struct Args {
     #[arg(short, long, default_value_t = 100000)]
     count: i32,
+    #[arg(short, long, default_value_t = 800)]
+    screen_height: i32,
+    #[arg(short, long, default_value_t = 800)]
+    screen_width: i32,
 }
 pub struct Particle {
     pos: Vector2,
@@ -86,11 +90,11 @@ impl Particle {
 }
 fn main() {
     // 初始化屏幕大小
-    let screen_width = 800;
-    let screen_height = 800;
 
     let args = Args::parse();
-    let mut particle_count = args.count;
+    let particle_count = args.count;
+    let screen_height = args.screen_height;
+    let screen_width = args.screen_width;
     let mut particles: Vec<Particle> = (0..particle_count)
         .map(|_| Particle::new(screen_width, screen_height))
         .collect();
