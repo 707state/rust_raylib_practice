@@ -6,10 +6,12 @@ use raylib::prelude::*;
 struct Args {
     #[arg(short, long, default_value_t = 100000)]
     count: i32,
-    #[arg(short, long, default_value_t = 800)]
+    #[arg(short, default_value_t = 800)]
     screen_height: i32,
-    #[arg(short, long, default_value_t = 800)]
+    #[arg(short, default_value_t = 800)]
     screen_width: i32,
+    #[arg(short, long, default_value_t = 60)]
+    fps: i32,
 }
 pub struct Particle {
     pos: Vector2,
@@ -95,6 +97,7 @@ fn main() {
     let particle_count = args.count;
     let screen_height = args.screen_height;
     let screen_width = args.screen_width;
+    let fps = args.fps;
     let mut particles: Vec<Particle> = (0..particle_count)
         .map(|_| Particle::new(screen_width, screen_height))
         .collect();
@@ -104,7 +107,7 @@ fn main() {
         .title("Raylib Particle System")
         .build();
 
-    rl.set_target_fps(60);
+    rl.set_target_fps(fps as u32);
 
     // 主循环
     while !rl.window_should_close() {
